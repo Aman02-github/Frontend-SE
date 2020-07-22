@@ -1,0 +1,12 @@
+sudo: required 
+language: react
+react:
+    - "stable"
+    
+services: 
+    - docker
+
+before_install: 
+    - docker build -t wilpat/sample-app -f Dockerfile.dev .
+script:     
+    - docker run -e CI=true wilpat/sample-app npm run test -- --coverage
