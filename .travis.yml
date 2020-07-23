@@ -1,12 +1,18 @@
-sudo: required 
 language: node_js
 node_js:
     - "stable"
-    
-services: 
-    - docker
+cache: npm    
 
-before_install: 
-    - docker build -t wilpat/Frontend-SE -f Dockerfile.dev .
-script:     
-    - docker run -e CI=true wilpat/Frontend-SE npm run test -- --coverage
+install:
+    - npm ci
+    
+script:
+    - npm test
+    - npm run build
+
+deploy:
+   provider: pages
+   skip-cleanup: true
+   github-token: $GITHUB_TOKEN
+   on:
+    branch: gh-pages
